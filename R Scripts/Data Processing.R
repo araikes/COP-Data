@@ -17,10 +17,12 @@ library(openxlsx)
 cop.x.data <- read.xlsx("./Data Files/Dual task analysis_Devin2.xlsx", sheet = 4,
                         startRow = 2, colNames = TRUE)
 head(cop.x.data)
+tail(cop.x.data)
 
 cop.y.data <- read.xlsx("./Data Files/Dual task analysis_Devin2.xlsx", sheet = 5,
                         startRow = 2, colNames = TRUE)
 head(cop.y.data)
+tail(cop.y.data)
 
 #### Reshape data ####
 # For easier MSE analysis in Python, COP data need to be in rows not columns. I
@@ -39,6 +41,8 @@ ggplot(data = cop.x.data[cop.x.data$Participant == "01LD",], aes(x = data.point,
 cop.x.data <- ungroup(cop.x.data) %>%
   spread(data.point, COP.X)
 
+# COP_Y data contained an extraneous row at the bottom.
+cop.y.data <- cop.y.data[1:9000,]
 cop.y.data <- cop.y.data %>%
   gather(Participant, COP.Y) %>%
   filter(complete.cases(.)) %>%
