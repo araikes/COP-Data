@@ -43,7 +43,8 @@ cop.y.data <- cop.y.data %>%
   mutate(data.point = seq(1:n()))
   
 # Prep data frames for plots to examine for nonstationarity
-sway.path <- left_join(cop.x.data, cop.y.data)
+sway.path <- left_join(cop.x.data, cop.y.data) %>%
+  ungroup()
 
 subject.vec <- cop.x.data %>%
   ungroup() %>%
