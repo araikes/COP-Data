@@ -34,13 +34,6 @@ cop.x.data <- cop.x.data %>%
   group_by(Participant) %>%
   mutate(data.point = seq(1:n()))
 
-# Plot subset for verification
-ggplot(data = cop.x.data[cop.x.data$Participant == "01LD",], aes(x = data.point, y = COP.X)) +
-  geom_line()
-
-cop.x.data <- ungroup(cop.x.data) %>%
-  spread(data.point, COP.X)
-
 # COP_Y data contained an extraneous row at the bottom.
 cop.y.data <- cop.y.data[1:9000,]
 cop.y.data <- cop.y.data %>%
@@ -49,15 +42,24 @@ cop.y.data <- cop.y.data %>%
   group_by(Participant) %>%
   mutate(data.point = seq(1:n()))
   
-# Plot subset for verification
-ggplot(data = cop.y.data[cop.y.data$Participant == "01LD",], aes(x = data.point, y = COP.Y)) +
-  geom_line()
+# Prep data frames for plots to examine for nonstationarity
+sway.path <- left_join(cop.x.data, cop.y.data)
+
+subject.vec <- cop.x.data %>%
+  ungroup() %>%
+  distinct(Participant) %>%
+  select(Participant) %>%
+  collect %>%
+  .[["Participant"]]
+
+# Spread COP data frames
+cop.x.data <- ungroup(cop.x.data) %>%
+  spread(data.point, COP.X)
 
 cop.y.data <-  ungroup(cop.y.data) %>%
   spread(data.point, COP.Y)
 
 # Drop Participant column but store to object
-participants <- cop.y.data$Participant
 cop.x.data <- select(cop.x.data, -Participant)
 cop.y.data <- select(cop.y.data, -Participant)
 
@@ -65,6 +67,40 @@ cop.y.data <- select(cop.y.data, -Participant)
 write.csv(cop.x.data, file = "./Data Files/COP X.csv", sep = ",", col.names = TRUE, row.names = FALSE)
 write.csv(cop.y.data, file = "./Data Files/COP Y.csv", sep = ",", col.names = TRUE, row.names = FALSE)
 
+#### Plot COP trace per partcipant ####
+
+# Create list for plot capture
+plot_list = list()
+
+# Make plots
+for (i in 1:length(subject.vec)) {
+  tmp <- filter(sway.path, Participant == subject.vec[i]) %>%
+    select(-Participant)
+  
+  p <- ggplot(data = tmp, aes(x = COP.X, y = COP.Y)) +
+    geom_line() +
+    ggtitle(paste("Participant: ", subject.vec[i])) +
+    theme_bw()
+  
+  plot_list[[i]] <- p
+}
+
+# Write plots to Plots folder
+my.dir <- getwd()
+
+setwd("Plots")
+
+pdf("Sway Validation.pdf")
+for (i in 1:length(subject.vec)){
+  print(plot_list[[i]])
+}
+
+dev.off()
+
+# Reset working directory
+setwd(my.dir)
+
 #### Clean workspace ####
-rm(list = c("cop.x.data", "cop.y.data"))
+rm(list = c("cop.x.data", "cop.y.data", "my.dir", "plot_list", "p", "tmp", "i",
+            "sway.path"))
           
