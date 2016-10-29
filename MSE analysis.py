@@ -1,7 +1,7 @@
+import afa
+import entropy
 import numpy as np
 import pandas
-import entropy
-import afa
 
 # Read data
 cop_x = pandas.read_csv("Data Files\COP X.csv", sep = ',')
@@ -29,5 +29,18 @@ for i in range(cop_x_np.shape[0]):
     dx, x = afa.detrending_method(cop_x_np[i], seg_len = 129, fit_order = 2)
     dy, y = afa.detrending_method(cop_y_np[i], seg_len = 129, fit_order = 2)
 
-    mse_x_detrended[i] = entropy.multiscale_entropy(time_series = dx[i], tau = max_tau, r = r, status = True)
-    mse_y_detrended[i] = entropy.multiscale_entropy(time_series = dy[i], tau = max_tau, r = r, status = True)
+    mse_x_detrended[i] = entropy.multiscale_entropy(time_series=dx, tau=max_tau, r=r, status=True)
+    mse_y_detrended[i] = entropy.multiscale_entropy(time_series=dy, tau=max_tau, r=r, status=True)
+
+    print("Row", i, "completed", sep=" ")
+
+# Write MSE frames to CSV for further analysis
+mse_x_df = pandas.DataFrame(mse_x)
+mse_y_df = pandas.DataFrame(mse_y)
+mse_x_dt_df = pandas.DataFrame(mse_x_detrended)
+mse_y_dt_df = pandas.DataFrame(mse_y_detrended)
+
+mse_x_df.to_csv("Data Files\MSE X.csv", header=False)
+mse_y_df.to_csv("Data Files\MSE Y.csv", header=False)
+mse_x_dt_df.to_csv("Data Files\Detrended X MSE.csv", header=False)
+mse_y_dt_df.to_csv("Data Files\Detrended Y MSE.csv", header=False)
