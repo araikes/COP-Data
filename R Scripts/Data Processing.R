@@ -79,7 +79,7 @@ for (i in 1:length(subject.vec)) {
     select(-Participant)
   
   p <- ggplot(data = tmp, aes(x = COP.X, y = COP.Y)) +
-    geom_line() +
+    geom_point() +
     ggtitle(paste("Participant: ", subject.vec[i])) +
     theme_bw()
   
