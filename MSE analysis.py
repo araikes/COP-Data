@@ -27,7 +27,7 @@ for i in range(cop_x_np.shape[0]):
     mse_y[i] = entropy.multiscale_entropy(time_series = cop_y_np[i], tau = max_tau, r = r, status = True)
 
     dx, x = afa.detrending_method(cop_x_np[i], seg_len = 129, fit_order = 2)
-    dy, y = afa.detrending_method(cop_y_np[i], seg = 129, fit_order = 2)
+    dy, y = afa.detrending_method(cop_y_np[i], seg_len = 129, fit_order = 2)
 
     mse_x_detrended[i] = entropy.multiscale_entropy(time_series = dx[i], tau = max_tau, r = r, status = True)
     mse_y_detrended[i] = entropy.multiscale_entropy(time_series = dy[i], tau = max_tau, r = r, status = True)
