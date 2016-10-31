@@ -34,31 +34,40 @@ mse.y.detrended <- mutate(mse.y.detrended, Participant = subject.vec)
 #### Reshape to long and reformat the scale value column
 mse.x <- mse.x %>%
   select(-V1) %>%
-  gather(Scale, ml.mse, -Participant)
+  gather(Scale, MSE, -Participant) %>%
+  mutate(Direction = "Medial-Lateral",
+         Type = "Raw")
 mse.x$Scale <- as.numeric(gsub("V","", mse.x$Scale))
 
 mse.x.detrended <- mse.x.detrended %>%
   select(-V1) %>%
-  gather(Scale, ml.detrended.mse, -Participant)
+  gather(Scale, MSE, -Participant) %>%
+  mutate(Direction = "Medial-Lateral",
+         Type = "Detrended")
 mse.x.detrended$Scale <- as.numeric(gsub("V","", mse.x.detrended$Scale))
 
 mse.y <- mse.y %>%
   select(-V1) %>%
-  gather(Scale, ap.mse, -Participant)
+  gather(Scale, MSE, -Participant) %>%
+  mutate(Direction = "Anterior-Posterior",
+         Type = "Raw")
 mse.y$Scale <- as.numeric(gsub("V","", mse.y$Scale))
 
 mse.y.detrended <- mse.y.detrended %>%
   select(-V1) %>%
-  gather(Scale, ap.detrended.mse, -Participant)
+  gather(Scale, MSE, -Participant) %>%
+  mutate(Direction = "Anterior-Posterior",
+         Type = "Detrended")
 mse.y.detrended$Scale <- as.numeric(gsub("V","", mse.y.detrended$Scale))
 
 #### Join data frames in long format ####
-mse.data <- inner_join(mse.x, mse.x.detrended)
-mse.data <- inner_join(mse.data, mse.y)
-mse.data <- inner_join(mse.data, mse.y.detrended)
+mse.data <- bind_rows(list(mse.x, mse.x.detrended, mse.y, mse.y.detrended))
 
 #### Split participant column ####
 mse.data <- extract(mse.data, Participant, into = c("Subject", "Environment", "Task"),
                     "([0-2][0-9])([L|W])([S|D])")
+
+str(mse.data)
+mse.data <- mutate_at(mse.data, vars(Subject), funs(as.numeric))
 
 
