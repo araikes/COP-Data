@@ -111,10 +111,10 @@ ggplot(data = ml.mse, aes(x = Scale, y = MSE, group = interaction(Environment, S
 
 #### Compute CI ####
 ap.complexity <- group_by(ap.mse, Subject, Environment, Task, Type) %>%
-  summarise(CI = mean(MSE))
+  summarise(CI = sum(MSE))
 
 ml.complexity <- group_by(ml.mse, Subject, Environment, Task, Type) %>%
-  summarise(CI = mean(MSE))
+  summarise(CI = sum(MSE))
 
 #### Separate dataframes for ease in subsetting for models ####
 ml.raw <- filter(ml.complexity, Type == "Raw") %>%
