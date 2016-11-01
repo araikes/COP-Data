@@ -1,0 +1,25 @@
+{
+    "contents" : "",
+    "created" : 1478030094832.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "A26CCED3",
+    "lastKnownWriteTime" : 30681274979123311,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "cacheKey" : "25k8lslnrw",
+        "caption" : "ap.dt",
+        "contentUrl" : "grid_resource/gridviewer.html?env=&obj=ap.dt&cache_key=25k8lslnrw",
+        "displayedObservations" : 81,
+        "environment" : "",
+        "object" : "ap.dt",
+        "totalObservations" : 81,
+        "variables" : 4
+    },
+    "relative_order" : 6,
+    "source_on_save" : false,
+    "type" : "r_dataframe"
+}

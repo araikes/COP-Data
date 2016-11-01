@@ -1,0 +1,25 @@
+{
+    "contents" : "",
+    "created" : 1478024500668.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "E8D9FE28",
+    "lastKnownWriteTime" : 7011605692497750387,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "cacheKey" : "1vuw8wp53n",
+        "caption" : "ap.complexity",
+        "contentUrl" : "grid_resource/gridviewer.html?env=&obj=ap.complexity&cache_key=1vuw8wp53n",
+        "displayedObservations" : 162,
+        "environment" : "",
+        "object" : "ap.complexity",
+        "totalObservations" : 162,
+        "variables" : 5
+    },
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "type" : "r_dataframe"
+}
