@@ -70,4 +70,20 @@ mse.data <- extract(mse.data, Participant, into = c("Subject", "Environment", "T
 str(mse.data)
 mse.data <- mutate_at(mse.data, vars(Subject), funs(as.numeric))
 
+#### Split into ML and AP directions ####
+ap.mse <- filter(mse.data, Direction == "Anterior-Posterior")
+ml.mse <- filter(mse.data, Direction == "Medial-Lateral")
+
+#### Plot 2x2 frames for each direction ####
+ggplot(data = ap.mse, aes(x = Scale, y = MSE, group = interaction(Task, Subject),
+                          color = Task)) +
+  facet_grid(Type ~ Environment) +
+  geom_line()
+
+ggplot(data = ml.mse, aes(x = Scale, y = MSE, group = interaction(Task, Subject),
+                          color = Task)) +
+  facet_grid(Type ~ Environment) +
+  geom_line()
+
+
 
